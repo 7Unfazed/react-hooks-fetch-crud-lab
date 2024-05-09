@@ -3,11 +3,16 @@ import React from "react";
 function QuestionItem({ question }) {
   const { id, prompt, answers, correctIndex } = question;
 
-  const options = answers.map((answer, index) => (
-    <option key={index} value={index}>
-      {answer}
-    </option>
-  ));
+  function handleDelete() {
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => console.log(`Question ${id} deleted`))
+      .catch((error) => console.error("Error deleting question:", error));
+    // Update state if needed
+  }
+
+  // Render UI for the question item
 
   return (
     <li>
@@ -15,9 +20,9 @@ function QuestionItem({ question }) {
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex}>{options}</select>
+        <select defaultValue={correctIndex}>{/* Options */}</select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={handleDelete}>Delete Question</button>
     </li>
   );
 }
